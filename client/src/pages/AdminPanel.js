@@ -21,7 +21,7 @@ const AdminPanel = () => {
       navigate("/admin-login"); // Redirect if not logged in
     } else {
       axios
-        .get("http://localhost:5000/admin/coupons", {
+        .get("https://coupon-distribution-020j.onrender.com/admin/coupons", {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
@@ -44,7 +44,7 @@ const AdminPanel = () => {
     setLoading(true);
     try {
       await axios.post(
-        "http://localhost:5000/admin/add-coupon",
+        "https://coupon-distribution-020j.onrender.com/admin/add-coupon",
         { code },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -53,7 +53,7 @@ const AdminPanel = () => {
       setError(null);
       setLoading(false);
       // Reload the coupons after adding
-      const res = await axios.get("http://localhost:5000/admin/coupons", {
+      const res = await axios.get("https://coupon-distribution-020j.onrender.com/admin/coupons", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCoupons(res.data);
@@ -67,12 +67,12 @@ const AdminPanel = () => {
     setLoading(true);
     try {
       await axios.put(
-        `http://localhost:5000/admin/toggle-coupon/${couponId}`,
+        `https://coupon-distribution-020j.onrender.com/admin/toggle-coupon/${couponId}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Reload the coupons after toggling
-      const res = await axios.get("http://localhost:5000/admin/coupons", {
+      const res = await axios.get("https://coupon-distribution-020j.onrender.com/admin/coupons", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCoupons(res.data);
@@ -92,7 +92,7 @@ const AdminPanel = () => {
     setLoading(true);
     try {
       await axios.put(
-        `http://localhost:5000/admin/modify-coupon/${couponId}`,
+        `https://coupon-distribution-020j.onrender.com/admin/modify-coupon/${couponId}`,
         { code: newCode },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -102,7 +102,7 @@ const AdminPanel = () => {
       setError(null);
       setLoading(false);
       // Reload the coupons after modification
-      const res = await axios.get("http://localhost:5000/admin/coupons", {
+      const res = await axios.get("https://coupon-distribution-020j.onrender.com/admin/coupons", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCoupons(res.data);
