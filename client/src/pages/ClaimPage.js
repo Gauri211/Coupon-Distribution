@@ -11,7 +11,7 @@ const ClaimPage = () => {
       setCoupon(res.data.coupon);
       setMessage(res.data.message);
     } catch (err) {
-      setMessage("No coupons available.");
+      setMessage(err.response.data.message);
     }
   };
 

@@ -11,6 +11,7 @@ const AdminPanel = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [editSuccessMessage, setEditSuccessMessage] = useState("");
   const [couponToEdit, setCouponToEdit] = useState(null);
   const navigate = useNavigate();
 
@@ -96,9 +97,9 @@ const AdminPanel = () => {
         { code: newCode },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setSuccessMessage("Coupon modified successfully!");
-      setCouponToEdit(null); // Close the modal
-      setNewCode(""); // Clear input
+      setEditSuccessMessage("Coupon modified successfully!");
+      setCouponToEdit(null); 
+      setNewCode(""); 
       setError(null);
       setLoading(false);
       // Reload the coupons after modification
@@ -146,10 +147,10 @@ const AdminPanel = () => {
                 <span className="coupon-code">{coupon.code}</span>
                 <span
                   className={`coupon-status ${
-                    coupon.claimedBy ? "claimed" : "available"
+                    coupon.available ? "claimed" : "available"
                   }`}
                 >
-                  {coupon.claimedBy ? "Claimed" : "Available"}
+                  {coupon.available ? "Available" : "Unavailable"}
                 </span>
                 {coupon.claimedBy &&
                 
@@ -163,7 +164,7 @@ const AdminPanel = () => {
                 </button>
                 {coupon.claimedBy === null && (
                   <button
-                    onClick={() => setCouponToEdit(coupon)}
+                    onClick={() => setCouponToEdit(coupon._id)}
                     className="edit-button"
                   >
                     Edit Coupon
@@ -188,8 +189,10 @@ const AdminPanel = () => {
               placeholder="New Coupon Code"
             />
             {error && <p className="error-text">{error}</p>}
-            {successMessage && <p className="success-text">{successMessage}</p>}
-            <button onClick={modifyCoupon} className="modal-modify-button">
+            {editSuccessMessage && (
+              <p className="success-text">{editSuccessMessage}</p>
+            )}
+            <button onClick={() => modifyCoupon(couponToEdit)} className="modal-modify-button">
               {loading ? "Modifying..." : "Modify Coupon"}
             </button>
             <button className="modal-cancel-btn" onClick={() => setCouponToEdit(null)}>Cancel</button>

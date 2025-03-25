@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const Coupon = require("../models/Coupon");
+
 require("dotenv").config();
 
 const router = express.Router();
@@ -35,7 +36,6 @@ router.post("/add-coupon", auth, async (req, res) => {
 });
 
 // Update Coupon
-// Modify Coupon (only for available and not claimed coupons)
 router.put("/modify-coupon/:id", auth, async (req, res) => {
     const { code } = req.body;
     const coupon = await Coupon.findById(req.params.id);
@@ -43,7 +43,7 @@ router.put("/modify-coupon/:id", auth, async (req, res) => {
     if (!coupon) return res.status(404).json({ message: "Coupon not found" });
     if (coupon.claimedBy) return res.status(400).json({ message: "Coupon already claimed, cannot be modified" });
   
-    coupon.code = code || coupon.code; // Update only the code if provided
+    coupon.code = code || coupon.code; 
     await coupon.save();
     res.json({ message: "Coupon updated successfully!" });
   });
@@ -54,6 +54,7 @@ router.put("/toggle-coupon/:id", auth, async (req, res) => {
   if (!coupon) return res.status(404).json({ message: "Coupon not found" });
 
   coupon.available = !coupon.available;
+  coupon.claimedBy = null; 
   await coupon.save();
   res.json({ message: "Coupon updated successfully!" });
 });

@@ -8,7 +8,6 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    console.log("credentials", credentials);
     try {
       const res = await axios.post("https://coupon-distribution-020j.onrender.com/admin/login", credentials);
       localStorage.setItem("adminToken", res.data.token);
